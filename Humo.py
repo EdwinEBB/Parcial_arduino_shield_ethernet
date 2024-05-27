@@ -80,7 +80,7 @@ def index():
                                      cursorclass=pymysql.cursors.DictCursor)
 
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM sensor_readings ORDER BY timestamp DESC LIMIT 100")
+            cursor.execute("SELECT * FROM sensor_readings ORDER BY timestamp ASC LIMIT 100")
             rows = cursor.fetchall()
 
         # Extraer datos para la gráfica
