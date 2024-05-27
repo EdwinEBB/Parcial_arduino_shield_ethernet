@@ -87,7 +87,7 @@ def index():
         times = [row['timestamp'] for row in rows]
         values = [row['value'] for row in rows]
 
-        # Crear la gráfica
+        # Crear la gráfica con Matplotlib
         plt.figure(figsize=(10, 5))
         plt.plot(times, values, marker='o')
         plt.title('Lecturas del Sensor de Humo')
@@ -105,172 +105,135 @@ def index():
         # Plantilla HTML a mostrar
         html = """
         <!DOCTYPE html>
-            <html lang="es">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Lecturas del Sensor de Humo</title>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-                    body {
-                        font-family: 'Roboto', sans-serif;
-                        text-align: center;
-                        background-color: #f4f4f9;
-                        margin: 0;
-                        padding: 0;
-                    }
-                    .header {
-                        background-color: #15817D;
-                        padding: 10px 0;
-                        color: white;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-                    .header img {
-                        max-width: 100px;
-                        height: auto;
-                        margin-right: 20px;
-                    }
-                    h1 {
-                        margin: 0;
-                    }
-                    .content {
-                        width: 80%;
-                        margin: 0 auto;
-                    }
-                    .table-container {
-                        margin: 20px auto;
-                        width: 100%;
-                        overflow-x: auto;
-                    }
-                    table {
-                        width: 100%;
-                        border-collapse: collapse;
-                        margin: 20px 0;
-                        font-size: 18px;
-                        text-align: center;
-                    }
-                    th, td {
-                        padding: 12px;
-                        border: 1px solid #ddd;
-                    }
-                    th {
-                        background-color: #15817D;
-                        color: white;
-                    }
-                    .chart-container {
-                        width: 100%;
-                        margin: 20px auto;
-                        overflow-x: auto;
-                    }
-                    .btn-refresh {
-                        background-color: #15817D;
-                        color: white;
-                        padding: 10px 20px;
-                        border: none;
-                        cursor: pointer;
-                        font-size: 16px;
-                        margin-top: 20px;
-                        border-radius: 5px;
-                        transition: background-color 0.3s;
-                        text-decoration: none;
-                        display: inline-block;
-                    }
-                    .btn-refresh:hover {
-                        background-color: #136b6a;
-                    }
-                    .delete-button {
-                        background-color: #f44336;
-                        color: white;
-                        padding: 10px 20px;
-                        border: none;
-                        cursor: pointer;
-                        text-decoration: none;
-                        border-radius: 5px;
-                        margin: 10px;
-                        transition: background-color 0.3s;
-                        display: inline-block;
-                    }
-                    .delete-button:hover {
-                        background-color: #e53935;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="header">
-                    <h1>Monitor de Humo</h1>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Lecturas del Sensor de Humo</title>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+                body {
+                    font-family: 'Roboto', sans-serif;
+                    text-align: center;
+                    background-color: #f4f4f9;
+                    margin: 0;
+                    padding: 0;
+                }
+                .header {
+                    background-color: #15817D;
+                    padding: 10px 0;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .header img {
+                    max-width: 100px;
+                    height: auto;
+                    margin-right: 20px;
+                }
+                h1 {
+                    margin: 0;
+                }
+                .content {
+                    width: 80%;
+                    margin: 0 auto;
+                }
+                .table-container {
+                    margin: 20px auto;
+                    width: 100%;
+                    overflow-x: auto;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 20px 0;
+                    font-size: 18px;
+                    text-align: center;
+                }
+                th, td {
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                }
+                th {
+                    background-color: #15817D;
+                    color: white;
+                }
+                .chart-container {
+                    width: 100%;
+                    margin: 20px auto;
+                    overflow-x: auto;
+                }
+                .btn-refresh {
+                    background-color: #15817D;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 16px;
+                    margin-top: 20px;
+                    border-radius: 5px;
+                    transition: background-color 0.3s;
+                    text-decoration: none;
+                    display: inline-block;
+                }
+                .btn-refresh:hover {
+                    background-color: #136b6a;
+                }
+                .delete-button {
+                    background-color: #f44336;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    cursor: pointer;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    margin: 10px;
+                    transition: background-color 0.3s;
+                    display: inline-block;
+                }
+                .delete-button:hover {
+                    background-color: #e53935;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>Monitor de Humo</h1>
+            </div>
+            <div class="content">
+                <div class="chart-container">
+                    <img src="data:image/png;base64,{{ plot_url }}" />
                 </div>
-                <div class="content">
-                    <div class="chart-container">
-                        <canvas id="myChart"></canvas>
-                    </div>
-                    <a class="btn-refresh" href="/">Refrescar Datos</a>
-                    <form action="/deleteData" method="post" style="display:inline;">
-                        <button type="submit" class="delete-button">Eliminar Datos</button>
-                    </form>
-                    <h2>Gráfica de Valores del Sensor</h2>
-                    <h2>Datos Recientes</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
+                <a class="btn-refresh" href="/">Refrescar Datos</a>
+                <form action="/deleteData" method="post" style="display:inline;">
+                    <button type="submit" class="delete-button">Eliminar Datos</button>
+                </form>
+                <h2>Gráfica de Valores del Sensor</h2>
+                <h2>Datos Recientes</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Valor del Sensor (ppm)</th>
+                                <th>Fecha y Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in rows %}
                                 <tr>
-                                    <th>Valor del Sensor (ppm)</th>
-                                    <th>Fecha y Hora</th>
+                                    <td>{{ row['value'] }}</td>
+                                    <td>{{ row['timestamp'] }}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {% for row in rows %}
-                                    <tr>
-                                        <td>{{ row.value }}</td>
-                                        <td>{{ row.timestamp }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <script>
-                    const data = {
-                        labels: [{% for row in rows %}"{{ row.timestamp }}",{% endfor %}],
-                        datasets: [{
-                            label: 'Valor del Sensor (ppm)',
-                            data: [{% for row in rows %}{{ row.value }},{% endfor %}],
-                            borderColor: '#15817D',
-                            fill: false,
-                            tension: 0.1
-                        }]
-                    };
-                    const config = {
-                        type: 'line',
-                        data: data,
-                        options: {
-                            scales: {
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Fecha y Hora'
-                                    }
-                                },
-                                y: {
-                                    title: {
-                                        display: true,
-                                        text: 'Valor del Sensor (ppm)'
-                                    }
-                                }
-                            }
-                        }
-                    };
-                    const myChart = new Chart(
-                        document.getElementById('myChart'),
-                        config
-                    );
-                </script>
-            </body>
-            </html>
+            </div>
+        </body>
+        </html>
         """
-        return render_template_string(html, rows=rows)
+        return render_template_string(html, rows=rows, plot_url=plot_url)
 
     except Exception as e:
         print("Error al obtener datos de la base de datos:", e)
