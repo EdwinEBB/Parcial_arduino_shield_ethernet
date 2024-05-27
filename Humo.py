@@ -7,8 +7,8 @@ import base64
 
 # Configuración de la base de datos MySQL
 DB_HOST = 'localhost'
-DB_USER = 'root'  # Cambia esto si usas otro usuario
-DB_PASSWORD = ''  # Cambia esto a tu contraseña
+DB_USER = 'root'  
+DB_PASSWORD = ''  
 DB_NAME = 'humo'
 
 app = Flask(__name__)
@@ -102,7 +102,7 @@ def index():
         img.seek(0)
         plot_url = base64.b64encode(img.getvalue()).decode()
 
-        # Generar la plantilla HTML
+        # plantila HTML a mostrar
         html = """
         <html>
         <head>
@@ -169,4 +169,4 @@ def index():
         connection.close()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0c.0.0', port=8000)
